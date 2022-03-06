@@ -1,4 +1,5 @@
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
+import PostService from './API/PostService'
 import Filter from './Components/Filter/Filter'
 import Form from './Components/Form/Form'
 import List from './Components/List/List'
@@ -23,6 +24,15 @@ const App = () => {
   const addNewPost = (newPost) => {
     setPosts([...posts, newPost])
   }
+
+  async function fetchPosts() {
+    let posts = await PostService.getAll()
+    setPosts(posts)
+  }
+
+  useEffect(() => {
+    fetchPosts()
+  }, [])
 
   return (
     <div className="App">
