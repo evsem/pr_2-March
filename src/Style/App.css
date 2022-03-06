@@ -23,3 +23,11 @@ body {
   max-width: 730px;
   margin: 0 auto;
 }
+
+.App_titleWarningNoPosts {
+  margin: 10px 0px;
+  font-size: 32px;
+  font-weight: 500;
+  letter-spacing: 2px;
+  text-align: center;
+}
