@@ -5,6 +5,7 @@ import Form from './Components/Form/Form'
 import List from './Components/List/List'
 import { usePosts } from './Hooks/usePosts'
 import './Style/App.css'
+import LoaderGrey from './UI/LoaderGrey/LoaderGrey'
 
 const App = () => {
   let [posts, setPosts] = useState([
@@ -46,7 +47,9 @@ const App = () => {
       <Filter filter={filter} setFilter={setFilter} />
 
       {isPostLoading ? (
-        <h2 className="App_titleWarning">Loading...</h2>
+        <div className="App_containerFromLoader">
+          <LoaderGrey />
+        </div>
       ) : (
         <List posts={searchedAndSelectedPosts} removePost={removePost} />
       )}
