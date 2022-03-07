@@ -3,6 +3,7 @@ import PostService from './API/PostService'
 import Filter from './Components/Filter/Filter'
 import Form from './Components/Form/Form'
 import List from './Components/List/List'
+import { useFetching } from './Hooks/useFetching'
 import { usePosts } from './Hooks/usePosts'
 import './Style/App.css'
 import LoaderGrey from './UI/LoaderGrey/LoaderGrey'
@@ -18,22 +19,16 @@ const App = () => {
   ])
   let [filter, setFilter] = useState({ sort: '', query: '' })
   let searchedAndSelectedPosts = usePosts(filter.sort, filter.query, posts)
-  let [isPostLoading, setIsPostLoading] = useState(false)
+  let [fetchPosts, isPostLoading, postError] = useFetching(async () => {
+    let posts = await PostService.getAll()
+    setPosts(posts)
+  })
 
   const removePost = (post) => {
     setPosts(posts.filter((p) => p.id !== post.id))
   }
   const addNewPost = (newPost) => {
     setPosts([...posts, newPost])
-  }
-
-  async function fetchPosts() {
-    setIsPostLoading(true)
-    setTimeout(async () => {
-      let posts = await PostService.getAll()
-      setPosts(posts)
-      setIsPostLoading(false)
-    }, 1000)
   }
 
   useEffect(() => {
@@ -45,6 +40,8 @@ const App = () => {
       <Form addPost_Func={addNewPost} />
 
       <Filter filter={filter} setFilter={setFilter} />
+
+      {postError && <h2 className="App_titleWarning">Error: {postError}</h2>}
 
       {isPostLoading ? (
         <div className="App_containerFromLoader">
