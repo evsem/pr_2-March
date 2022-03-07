@@ -17,6 +17,7 @@ const App = () => {
   ])
   let [filter, setFilter] = useState({ sort: '', query: '' })
   let searchedAndSelectedPosts = usePosts(filter.sort, filter.query, posts)
+  let [isPostLoading, setIsPostLoading] = useState(false)
 
   const removePost = (post) => {
     setPosts(posts.filter((p) => p.id !== post.id))
@@ -26,8 +27,12 @@ const App = () => {
   }
 
   async function fetchPosts() {
-    let posts = await PostService.getAll()
-    setPosts(posts)
+    setIsPostLoading(true)
+    setTimeout(async () => {
+      let posts = await PostService.getAll()
+      setPosts(posts)
+      setIsPostLoading(false)
+    }, 1000)
   }
 
   useEffect(() => {
@@ -40,10 +45,16 @@ const App = () => {
 
       <Filter filter={filter} setFilter={setFilter} />
 
+      {isPostLoading ? (
+        <h2 className="App_titleWarning">Loading...</h2>
+      ) : (
+        <List posts={searchedAndSelectedPosts} removePost={removePost} />
+      )}
+
       {searchedAndSelectedPosts.length ? (
         <List posts={searchedAndSelectedPosts} removePost={removePost} />
       ) : (
-        <h2 className="App_titleWarningNoPosts">No posts</h2>
+        <h2 className="App_titleWarning">No posts</h2>
       )}
     </div>
   )
