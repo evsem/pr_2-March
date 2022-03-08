@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import PostService from './API/PostService'
 import Filter from './Components/Filter/Filter'
 import Form from './Components/Form/Form'
@@ -47,11 +47,10 @@ const App = () => {
 
   useEffect(() => {
     fetchPosts()
-  }, [])
+  }, [page])
 
   const changePost = (page) => {
     setPage(page)
-    fetchPosts()
   }
 
   return (
