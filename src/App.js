@@ -49,6 +49,11 @@ const App = () => {
     fetchPosts()
   }, [])
 
+  const changePost = (page) => {
+    setPage(page)
+    fetchPosts()
+  }
+
   return (
     <div className="App">
       <Form addPost_Func={addNewPost} />
@@ -66,7 +71,9 @@ const App = () => {
       )}
 
       {pagesArray.map((p) => (
-        <ButtonBrown>{p}</ButtonBrown>
+        <ButtonBrown onClick={() => changePost(p)} key={p}>
+          {p}
+        </ButtonBrown>
       ))}
     </div>
   )
