@@ -3,6 +3,7 @@ import PostService from './API/PostService'
 import Filter from './Components/Filter/Filter'
 import Form from './Components/Form/Form'
 import List from './Components/List/List'
+import Pagination from './Components/Pagination/Pagination'
 import { useFetching } from './Hooks/useFetching'
 import { usePosts } from './Hooks/usePosts'
 import './Style/App.css'
@@ -36,8 +37,6 @@ const App = () => {
     setTotalPages(getPageCount(totalCount, limit))
   })
 
-  let pagesArray = getPagesArray(totalPages)
-
   const removePost = (post) => {
     setPosts(posts.filter((p) => p.id !== post.id))
   }
@@ -69,11 +68,7 @@ const App = () => {
         <List posts={searchedAndSelectedPosts} removePost={removePost} />
       )}
 
-      {pagesArray.map((p) => (
-        <ButtonBrown onClick={() => changePost(p)} key={p}>
-          {p}
-        </ButtonBrown>
-      ))}
+      <Pagination changePost={changePost} totalPages={totalPages} />
     </div>
   )
 }
